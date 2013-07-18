@@ -13,7 +13,7 @@ the actual problem instead of the basic math.
 The algorithms aren't terribly efficient--most simply mirror the methods I would use if solving the problem with pencil
 and paper.
 
-Include string_math_shorthand to attach the StringMath methods directly to strings. This allows shorthand operations:
+Include string_math_shorthand.js to attach the StringMath methods directly to strings. This allows shorthand operations:
 
 * "1".add("1") === "2"
 * "3".subtract("2") === "1"
