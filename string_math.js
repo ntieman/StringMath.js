@@ -304,31 +304,6 @@ var StringMath = new function() {
 		return StringMath.compare(a, b) !== 1;
 	}
 	/**
-	 * Returns the input with the lowest value.
-	 *
-	 * @param string num1, num2, ... Test numbers.
-	 * @return string Greatest number.
-	 */
-	this.min = function() {
-		var argumentsLength = arguments.length;
-		
-		if(argumentsLength === 0) {
-			return undefined;
-		}
-		
-		var min = arguments[0];
-		
-		for(var i = 1; i < argumentsLength; i++) {
-			var argument = arguments[i];
-			
-			if(StringMath.less(argument, max)) {
-				min = argument;
-			}
-		}
-		
-		return min;
-	}
-	/**
 	 * Returns the input with the greatest value.
 	 *
 	 * @param string num1, num2, ... Test numbers.
@@ -352,6 +327,31 @@ var StringMath = new function() {
 		}
 		
 		return max;
+	}
+	/**
+	 * Returns the input with the lowest value.
+	 *
+	 * @param string num1, num2, ... Test numbers.
+	 * @return string Greatest number.
+	 */
+	this.min = function() {
+		var argumentsLength = arguments.length;
+		
+		if(argumentsLength === 0) {
+			return undefined;
+		}
+		
+		var min = arguments[0];
+		
+		for(var i = 1; i < argumentsLength; i++) {
+			var argument = arguments[i];
+			
+			if(StringMath.less(argument, min)) {
+				min = argument;
+			}
+		}
+		
+		return min;
 	}
 	/**
 	 * Finds the modulo of two numbers.
