@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		
+		<title>StringMath Test</title>
+		
+		<style>
+			#display a {
+				display: inline-block;
+				font-size: 150%;
+				margin-top: .5em;
+				margin-bottom: 1em;
+			}
+			
+			#display a.top {
+				display: inline-block;
+				font-size: 80%;
+				margin-left: 1em;
+			}
+			
+			#nav a {
+				display: inline-block;
+				margin-left: .5em;
+				margin-right: .5em;
+			}
+			
+			.display {
+				display: inline-block;
+				color: gray;
+				font-style: italic;
+			}
+			
+			.good {
+				color: green;
+			}
+			
+			.bad {
+				color: red;
+				font-weight: bold;
+			}
+		</style>
+		
+		<script src="string_math.js"></script>
+		<script src="string_fraction.js"></script>
+		<script src="string_math_shorthand.js"></script>
+		<script>
+			function postNav(title, anchor) {
+				var nav = document.getElementById("nav");
+				var display = document.getElementById("display");
+				
+				nav.innerHTML += '<a href="#' + anchor + '">' + title + '</a>';
+				display.innerHTML += '<tr><th><a name="' + anchor + '">' + title + '</a><a class="top" href="#top">Top</a></th></tr>';
+			}
+			
+			function postAssert(statement, desired) {
+				var display = document.getElementById("display");
+				var actual = eval(statement);
+				var test = (actual === desired);
+				
+				if(typeof(actual) === "string") {
+					actual = '"' + actual + '"';
+				}
+				
+				if(typeof(desired) === "string") {
+					desired = '"' + desired + '"';
+				}
+				
+				display.innerHTML += '<tr><td class="display">' + statement + ' === ' + desired + '</td><td class="' + 
+					(test ? "good" : "bad" ) + '">' + actual + '</td></tr>';
+			}
+			
+			window.addEventListener("load", function() {
+				postNav("StringMath.add", "stringmath-add");
+				
+				postAssert('StringMath.add("1", "1")', "2");
+				postAssert('StringMath.add("1.0", "1.0")', "2");
+				postAssert('StringMath.add("123", "123")', "246");
+				postAssert('StringMath.add("999", "999")', "1998");
+				postAssert('StringMath.add("1.23", "1.23")', "2.46");
+				postAssert('StringMath.add("9.99", "9.99")', "19.98");
+				postAssert('StringMath.add(".9", ".9")', "1.8");
+				
+				postNav("StringMath.clean", "stringmath-clean");
+			
+				postAssert('StringMath.clean("1e-3")', "0.001");
+				postAssert('StringMath.clean("1e-2")', "0.01");
+				postAssert('StringMath.clean("1e-1")', "0.1");
+				postAssert('StringMath.clean("1e+0")', "1");
+				postAssert('StringMath.clean("1e+1")', "10");
+				postAssert('StringMath.clean("1e+2")', "100");
+				postAssert('StringMath.clean("1e+3")', "1000");
+				postAssert('StringMath.clean("1.23e-3")', "0.00123");
+				postAssert('StringMath.clean("1.23e-2")', "0.0123");
+				postAssert('StringMath.clean("1.23e-1")', "0.123");
+				postAssert('StringMath.clean("1.23e+0")', "1.23");
+				postAssert('StringMath.clean("1.23e+1")', "12.3");
+				postAssert('StringMath.clean("1.23e+2")', "123");
+				postAssert('StringMath.clean("1.23e+3")', "1230");
+				postAssert('StringMath.clean(1e-3)', "0.001");
+				postAssert('StringMath.clean(1e-2)', "0.01");
+				postAssert('StringMath.clean(1e-1)', "0.1");
+				postAssert('StringMath.clean(1e+0)', "1");
+				postAssert('StringMath.clean(1e+1)', "10");
+				postAssert('StringMath.clean(1e+2)', "100");
+				postAssert('StringMath.clean(1e+3)', "1000");
+				postAssert('StringMath.clean(1.23e-3)', "0.00123");
+				postAssert('StringMath.clean(1.23e-2)', "0.0123");
+				postAssert('StringMath.clean(1.23e-1)', "0.123");
+				postAssert('StringMath.clean(1.23e+0)', "1.23");
+				postAssert('StringMath.clean(1.23e+1)', "12.3");
+				postAssert('StringMath.clean(1.23e+2)', "123");
+				postAssert('StringMath.clean(1.23e+3)', "1230");
+				
+				postNav("StringMath.compare", "stringmath-compare");
+				
+				postAssert('StringMath.compare("1", "1")', 0);
+				postAssert('StringMath.compare("1", "2")', -1);
+				postAssert('StringMath.compare("2", "1")', 1);
+				postAssert('StringMath.compare("-1", "-1")', 0);
+				postAssert('StringMath.compare("-2", "-1")', -1);
+				postAssert('StringMath.compare("-1", "-2")', 1);
+				postAssert('StringMath.compare("100", "10")', 1);
+				postAssert('StringMath.compare("10", "100")', -1);
+				postAssert('StringMath.compare("-10", "-100")', 1);
+				postAssert('StringMath.compare("-100", "-10")', -1);
+				postAssert('StringMath.compare("-100", "-100")', 0);
+
+				postNav("StringMath.divide", "stringmath-divide");
+				
+				postAssert('StringMath.divide("1", "1")', "1");
+				postAssert('StringMath.divide("1", "10")', "0.1");
+				postAssert('StringMath.divide("2", "5")', "0.4");
+				postAssert('StringMath.divide("100", "10")', "10");
+				postAssert('StringMath.divide(".1", ".1")', "1");
+				postAssert('StringMath.divide("25", "5")', "5");
+				postAssert('StringMath.divide("2.5", "5")', "0.5");
+				postAssert('StringMath.divide("-1", "1")', "-1");
+				postAssert('StringMath.divide("1", "-1")', "-1");
+				postAssert('StringMath.divide("25", "125")', "0.2");
+				postAssert('StringMath.divide("379", "25")', "15.16");
+				postAssert('StringMath.divide("3.79", "2.5")', "1.516");
+				
+				postNav('StringMath.modulo', "stringmath-modulo");
+				
+				postAssert('StringMath.modulo("1", "1")', "0");
+				postAssert('StringMath.modulo("1", "10")', "1");
+				postAssert('StringMath.modulo("2", "5")', "2");
+				postAssert('StringMath.modulo("100", "10")', "0");
+				postAssert('StringMath.modulo("28", "5")', "3");
+				postAssert('StringMath.modulo("379", "25")', "4");
+				
+				postNav("StringMath.multiply", "stringmath-multiply");
+				
+				postAssert('StringMath.multiply("1", "1")', "1");
+				postAssert('StringMath.multiply("12", "12")', "144");
+				postAssert('StringMath.multiply("1", "-1")', "-1");
+				postAssert('StringMath.multiply("-1", "1")', "-1");
+				postAssert('StringMath.multiply(".9", ".9")', "0.81");
+				postAssert('StringMath.multiply("-.9", ".9")', "-0.81");
+				
+				postNav("StringMath.pow", "stringmath-pow");
+				
+				postAssert('StringMath.pow("2", "2")', "4");
+				postAssert('StringMath.pow("2", "3")', "8");
+				postAssert('StringMath.pow("2", "-1")', "0.5");
+				postAssert('StringMath.pow("2", "2.5", 5)', "5.65685");
+				
+				postNav("StringMath.root", "stringmath-root");
+				
+				postAssert('StringMath.root("4", "2")', "2");
+				postAssert('StringMath.root("9", "2")', "3");
+				postAssert('StringMath.root("16", "2")', "4");
+				postAssert('StringMath.root("8", "3")', "2");
+				postAssert('StringMath.root("27", "3")', "3");
+				postAssert('StringMath.root("64", "3")', "4");
+				postAssert('StringMath.root("8", "2", 10)', "2.8284271247");
+				
+				postNav("StringMath.subtract", "stringmath-subtract");
+				
+				postAssert('StringMath.subtract("2", "1")', "1");
+				postAssert('StringMath.subtract("1", "2")', "-1");
+				postAssert('StringMath.subtract("21", "12")', "9");
+				postAssert('StringMath.subtract("12", "21")', "-9");
+			}, false);
+		</script>
+	</head>
+	<body>
+		<h1><a name="top">StringMath Test</a></h1>
+		
+		<nav id="nav">
+		
+		</nav>
+		<table>
+			<tbody id="display">
+			
+			</tbody>
+		</table>
+	</body>
+</html>
