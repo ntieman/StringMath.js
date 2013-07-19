@@ -28,6 +28,14 @@ function StringFraction(newNumerator, newDenominator) {
  * @return StringFraction Sum.
  */
 StringFraction.prototype.add = function(b) {
+	if(StringMath.equal(b.numerator, "0")) {
+		return this;
+	}
+	
+	if(StringMath.equal(this.numerator, "0")) {
+		return b;
+	}
+	
 	var oldDenominator = this.denominator;
 	
 	this.numerator = StringMath.multiply(this.numerator, b.denominator);
@@ -39,7 +47,29 @@ StringFraction.prototype.add = function(b) {
 	return new StringFraction(StringMath.add(this.numerator, b.numerator), this.denominator).reduce();
 }
 /**
+ * Divides one fraction by another.
+ *
+ * @param StringFraction b Second fraction.
+ * @return StringFraction Quotient.
+ */
+StringFraction.prototype.divide = function(b) {
+	return new StringFraction(
+		StringMath.multiply(this.numerator, b.denominator),
+		StringMath.multiply(this.denominator, b.numerator)
+	).reduce();
+}
+/**
  * Multiplies one fraction by another.
+ *
+ * @param StringFraction b Second fraction.
+ * @return StringFraction Product.
+ */
+StringFraction.prototype.multiply = function(b) {
+	return new StringFraction(
+		StringMath.multiply(this.numerator, b.numerator),
+		StringMath.multiply(this.denominator, b.denominator)
+	).reduce();
+}
 /**
  * Subtracts one fraction from another.
  *
@@ -47,6 +77,18 @@ StringFraction.prototype.add = function(b) {
  * @return StringFraction Difference.
  */
 StringFraction.prototype.subtract = function(b) {
+	if(StringMath.equal(b.numerator, "0")) {
+		return this;
+	}
+	
+	if(StringMath.equal(this.numerator, "0")) {
+		if(b.numerator.charAt(0) === "-") {
+			return new StringFraction(b.numerator.substr(1), b.denominator);
+		} else {
+			return new StringFraction("-" + b.numerator, b.denominator);
+		}
+	}
+	
 	var oldDenominator = this.denominator;
 	
 	this.numerator = StringMath.multiply(this.numerator, b.denominator);
